@@ -9,3 +9,5 @@ app.listen(3001, () => {
 //     console.log("server is running on http://localhost:3000");
 //   });
 // }
+
+export default app;
