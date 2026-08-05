@@ -9,7 +9,7 @@ export default defineConfig({
   bundle: true,
   minify: true,
   banner: {
-    js: `
+    js: /* */ `
       import { createRequire } from 'module';
       const require = createRequire(import.meta.url);
     `,

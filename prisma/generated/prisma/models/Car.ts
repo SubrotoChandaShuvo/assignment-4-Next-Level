@@ -39,21 +39,21 @@ export type CarSumAggregateOutputType = {
 export type CarMinAggregateOutputType = {
   id: number | null
   name: string | null
-  mode: string | null
+  model: string | null
   year: number | null
 }
 
 export type CarMaxAggregateOutputType = {
   id: number | null
   name: string | null
-  mode: string | null
+  model: string | null
   year: number | null
 }
 
 export type CarCountAggregateOutputType = {
   id: number
   name: number
-  mode: number
+  model: number
   year: number
   _all: number
 }
@@ -72,21 +72,21 @@ export type CarSumAggregateInputType = {
 export type CarMinAggregateInputType = {
   id?: true
   name?: true
-  mode?: true
+  model?: true
   year?: true
 }
 
 export type CarMaxAggregateInputType = {
   id?: true
   name?: true
-  mode?: true
+  model?: true
   year?: true
 }
 
 export type CarCountAggregateInputType = {
   id?: true
   name?: true
-  mode?: true
+  model?: true
   year?: true
   _all?: true
 }
@@ -180,7 +180,7 @@ export type CarGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type CarGroupByOutputType = {
   id: number
   name: string
-  mode: string
+  model: string
   year: number
   _count: CarCountAggregateOutputType | null
   _avg: CarAvgAggregateOutputType | null
@@ -210,14 +210,14 @@ export type CarWhereInput = {
   NOT?: Prisma.CarWhereInput | Prisma.CarWhereInput[]
   id?: Prisma.IntFilter<"Car"> | number
   name?: Prisma.StringFilter<"Car"> | string
-  mode?: Prisma.StringFilter<"Car"> | string
+  model?: Prisma.StringFilter<"Car"> | string
   year?: Prisma.IntFilter<"Car"> | number
 }
 
 export type CarOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  mode?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   year?: Prisma.SortOrder
 }
 
@@ -227,14 +227,14 @@ export type CarWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CarWhereInput[]
   NOT?: Prisma.CarWhereInput | Prisma.CarWhereInput[]
   name?: Prisma.StringFilter<"Car"> | string
-  mode?: Prisma.StringFilter<"Car"> | string
+  model?: Prisma.StringFilter<"Car"> | string
   year?: Prisma.IntFilter<"Car"> | number
 }, "id">
 
 export type CarOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  mode?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   year?: Prisma.SortOrder
   _count?: Prisma.CarCountOrderByAggregateInput
   _avg?: Prisma.CarAvgOrderByAggregateInput
@@ -249,60 +249,60 @@ export type CarScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CarScalarWhereWithAggregatesInput | Prisma.CarScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Car"> | number
   name?: Prisma.StringWithAggregatesFilter<"Car"> | string
-  mode?: Prisma.StringWithAggregatesFilter<"Car"> | string
+  model?: Prisma.StringWithAggregatesFilter<"Car"> | string
   year?: Prisma.IntWithAggregatesFilter<"Car"> | number
 }
 
 export type CarCreateInput = {
   name: string
-  mode: string
+  model: string
   year: number
 }
 
 export type CarUncheckedCreateInput = {
   id?: number
   name: string
-  mode: string
+  model: string
   year: number
 }
 
 export type CarUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  mode?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   year?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type CarUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  mode?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   year?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type CarCreateManyInput = {
   id?: number
   name: string
-  mode: string
+  model: string
   year: number
 }
 
 export type CarUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  mode?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   year?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type CarUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  mode?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   year?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type CarCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  mode?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   year?: Prisma.SortOrder
 }
 
@@ -314,14 +314,14 @@ export type CarAvgOrderByAggregateInput = {
 export type CarMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  mode?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   year?: Prisma.SortOrder
 }
 
 export type CarMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  mode?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   year?: Prisma.SortOrder
 }
 
@@ -347,32 +347,32 @@ export type IntFieldUpdateOperationsInput = {
 export type CarSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  mode?: boolean
+  model?: boolean
   year?: boolean
 }, ExtArgs["result"]["car"]>
 
 export type CarSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  mode?: boolean
+  model?: boolean
   year?: boolean
 }, ExtArgs["result"]["car"]>
 
 export type CarSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  mode?: boolean
+  model?: boolean
   year?: boolean
 }, ExtArgs["result"]["car"]>
 
 export type CarSelectScalar = {
   id?: boolean
   name?: boolean
-  mode?: boolean
+  model?: boolean
   year?: boolean
 }
 
-export type CarOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "mode" | "year", ExtArgs["result"]["car"]>
+export type CarOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "model" | "year", ExtArgs["result"]["car"]>
 
 export type $CarPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Car"
@@ -380,7 +380,7 @@ export type $CarPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
-    mode: string
+    model: string
     year: number
   }, ExtArgs["result"]["car"]>
   composites: {}
@@ -807,7 +807,7 @@ export interface Prisma__CarClient<T, Null = never, ExtArgs extends runtime.Type
 export interface CarFieldRefs {
   readonly id: Prisma.FieldRef<"Car", 'Int'>
   readonly name: Prisma.FieldRef<"Car", 'String'>
-  readonly mode: Prisma.FieldRef<"Car", 'String'>
+  readonly model: Prisma.FieldRef<"Car", 'String'>
   readonly year: Prisma.FieldRef<"Car", 'Int'>
 }
     

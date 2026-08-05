@@ -1,6 +1,8 @@
 model Car{
   id Int @id @default(autoincrement())
   name String
-  mode String
+  model String
   year Int
+
+  @@map("car")
 }

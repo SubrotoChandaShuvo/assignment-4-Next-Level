@@ -533,7 +533,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const CarScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  mode: 'mode',
+  model: 'model',
   year: 'year'
 } as const
 
