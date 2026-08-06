@@ -10,7 +10,7 @@ app.use(express.json());
 
 // console.log(config.NODE_ENV);
 app.get("/", async (req, res) => {
-  res.send("server is running");
+  res.send("server is running now");
 });
 
 export default app;
