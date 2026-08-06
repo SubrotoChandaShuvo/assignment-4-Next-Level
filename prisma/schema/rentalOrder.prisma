@@ -1,0 +1,31 @@
+enum RentalStatus {
+  PLACED
+  CONFIRMED
+  PAID
+  PICKED_UP
+  RETURNED
+  CANCELLED
+}
+
+model RentalOrder {
+  id            String          @id @default(cuid())
+
+  customerId    String
+  gearId        String
+
+  quantity      Int
+  startDate     DateTime
+  endDate       DateTime
+
+  totalPrice    Float
+
+  status        RentalStatus    @default(PLACED)
+
+  customer      User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  gear          GearItem        @relation(fields: [gearId], references: [id])
+
+  payment       Payment?
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}

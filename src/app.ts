@@ -1,10 +1,9 @@
 import express, { type Application } from "express";
 import config from "./config";
-import authRouter from "./modules/auth/auth.routes";
-import userRouter from "./modules/user/user.routes";
-import { notFoundHandler } from "./middleware/not-found";
-import { globalErrorHandler } from "./middleware/global-error";
-import carRouter from "./modules/car/car.routes";
+// import authRouter from "./module/auth/auth.routes";
+// import userRouter from "./module/user/user.routes";
+// import { notFoundHandler } from "./middleware/not-found";
+// import { globalErrorHandler } from "./middleware/global-error";
 
 
 const app: Application = express();
@@ -18,13 +17,13 @@ app.get("/", async (req, res) => {
   res.send("server is running now");
 });
 
-app.use("/auth", authRouter);
-app.use("/users", userRouter);
-app.use("/car", carRouter);
+// app.use("/auth", authRouter);
+// app.use("/users", userRouter);
+// // app.use("/car", ca)
 
 
-app.use(notFoundHandler);
-app.use(globalErrorHandler);
+// app.use(notFoundHandler);
+// app.use(globalErrorHandler);
 
 export default app;
 
