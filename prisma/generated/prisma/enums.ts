@@ -9,15 +9,6 @@
 * 🟢 You can import this file directly.
 */
 
-export const BookingStatus = {
-  PENDING: 'PENDING',
-  CONFIRMED: 'CONFIRMED',
-  CANCELLED: 'CANCELLED'
-} as const
-
-export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
-
-
 export const PaymentStatus = {
   PENDING: 'PENDING',
   COMPLETED: 'COMPLETED',
@@ -27,10 +18,30 @@ export const PaymentStatus = {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 
+export const RentalStatus = {
+  PLACED: 'PLACED',
+  CONFIRMED: 'CONFIRMED',
+  PAID: 'PAID',
+  PICKED_UP: 'PICKED_UP',
+  RETURNED: 'RETURNED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type RentalStatus = (typeof RentalStatus)[keyof typeof RentalStatus]
+
+
 export const Role = {
-  RENTER: 'RENTER',
-  OWNER: 'OWNER',
+  CUSTOMER: 'CUSTOMER',
+  PROVIDER: 'PROVIDER',
   ADMIN: 'ADMIN'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]

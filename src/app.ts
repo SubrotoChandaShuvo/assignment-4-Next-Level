@@ -1,5 +1,6 @@
 import express, { type Application } from "express";
 import config from "./config";
+import { notFoundHandler } from "./middleware/not-found";
 // import authRouter from "./module/auth/auth.routes";
 // import userRouter from "./module/user/user.routes";
 // import { notFoundHandler } from "./middleware/not-found";
@@ -22,7 +23,7 @@ app.get("/", async (req, res) => {
 // // app.use("/car", ca)
 
 
-// app.use(notFoundHandler);
+app.use(notFoundHandler);
 // app.use(globalErrorHandler);
 
 export default app;

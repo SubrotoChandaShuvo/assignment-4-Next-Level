@@ -51,9 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Booking: 'Booking',
-  Car: 'Car',
+  Category: 'Category',
+  GearItem: 'GearItem',
   Payment: 'Payment',
+  RentalOrder: 'RentalOrder',
+  Review: 'Review',
   User: 'User'
 } as const
 
@@ -73,10 +75,54 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const BookingScalarFieldEnum = {
+export const CategoryScalarFieldEnum = {
   id: 'id',
-  carId: 'carId',
-  renterId: 'renterId',
+  name: 'name',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const GearItemScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  brand: 'brand',
+  image: 'image',
+  pricePerDay: 'pricePerDay',
+  stock: 'stock',
+  availability: 'availability',
+  providerId: 'providerId',
+  categoryId: 'categoryId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GearItemScalarFieldEnum = (typeof GearItemScalarFieldEnum)[keyof typeof GearItemScalarFieldEnum]
+
+
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  rentalOrderId: 'rentalOrderId',
+  transactionId: 'transactionId',
+  amount: 'amount',
+  status: 'status',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const RentalOrderScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  gearId: 'gearId',
+  quantity: 'quantity',
   startDate: 'startDate',
   endDate: 'endDate',
   totalPrice: 'totalPrice',
@@ -85,35 +131,20 @@ export const BookingScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
+export type RentalOrderScalarFieldEnum = (typeof RentalOrderScalarFieldEnum)[keyof typeof RentalOrderScalarFieldEnum]
 
 
-export const CarScalarFieldEnum = {
+export const ReviewScalarFieldEnum = {
   id: 'id',
-  brand: 'brand',
-  model: 'model',
-  dailyRate: 'dailyRate',
-  location: 'location',
-  isAvailable: 'isAvailable',
-  ownerId: 'ownerId',
+  rating: 'rating',
+  comment: 'comment',
+  customerId: 'customerId',
+  gearId: 'gearId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type CarScalarFieldEnum = (typeof CarScalarFieldEnum)[keyof typeof CarScalarFieldEnum]
-
-
-export const PaymentScalarFieldEnum = {
-  id: 'id',
-  bookingId: 'bookingId',
-  amount: 'amount',
-  status: 'status',
-  transactionId: 'transactionId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -121,7 +152,10 @@ export const UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
+  phone: 'phone',
+  profileImage: 'profileImage',
   role: 'role',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -143,4 +177,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
