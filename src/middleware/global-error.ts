@@ -21,27 +21,33 @@ export const globalErrorHandler: ErrorRequestHandler = (
   } else if (err instanceof Error) {
     statusCode = 400;
     message = "Validation Error";
+    errorDetails = err.message;
   } else if (err instanceof PrismaClientKnownRequestError) {
     switch (err.code) {
       case "P2002":
         statusCode = 400;
         message = "Duplicate Value";
+        errorDetails = { code: err.code};
         break;
       case "P2025":
         statusCode = 404;
         message = "Record Not Found";
+        errorDetails = { code: err.code};
         break;
       case "P2003":
         statusCode = 400;
         message = "Foreign Key Constraint Failed";
+        errorDetails = { code: err.code};
         break;
       case "P2004":
         statusCode = 400;
         message = "Database Error";
+        errorDetails = { code: err.code};
         break;
       case "P2005":
         statusCode = 400;
         message = "Database Error";
+        errorDetails = { code: err.code};
         break;
       default:
         statusCode = 400;

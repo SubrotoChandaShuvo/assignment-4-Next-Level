@@ -4,6 +4,7 @@ import { notFoundHandler } from "./middleware/not-found";
 import userRouter from "./module/user/user.routes";
 import authRouter from "./module/auth/auth.routes";
 import { globalErrorHandler } from "./middleware/global-error";
+import gearRouter from "./module/gear/gear.routes";
 
 
 
@@ -19,9 +20,9 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
-app.use("/api/users", userRouter);
+app.use("/api/admin/users", userRouter);
 
-// // app.use("/car", ca)
+app.use("/api/gear", gearRouter);
 
 
 app.use(notFoundHandler);
