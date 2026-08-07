@@ -21,7 +21,7 @@ const auth = (...roles: Role[]) =>
 
     try {
       const decoded = verifyAccessToken(token);
-        console.log(decoded);
+        // console.log(decoded);
       if (roles.length && !roles.includes(decoded.role)) {
         throw new AppError(403, "Forbidden - Unauthorized access");
       }

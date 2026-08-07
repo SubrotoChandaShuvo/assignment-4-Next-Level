@@ -4,6 +4,7 @@ import prisma from "../../lib/prisma";
 import { sendResponse } from "../../utils/send-response";
 import z from "zod";
 import { getGearById } from "./gear.service";
+import { createGearSchema } from "./gear.validation";
 
 // export const getGears = catchAsync(async(req: Request, res: Response)=>{})
 export const getGears = catchAsync(async(req: Request, res: Response)=>{
@@ -31,4 +32,22 @@ export const getGear = catchAsync(async(req: Request, res: Response)=>{
      const gear = await getGearById(id)
      sendResponse(res, {message:"Gear retrieved successfully", data:{gear}})
      return
+})
+
+
+
+
+export const addGear = catchAsync(async (req:Request, res:Response)=>{
+    const input = createGearSchema.parse(req.body)
+
+
+    const gear = await prisma.gearItem.create({
+        data:{
+            ...input,
+            providerId: req.user!.id
+        }
+    })
+
+    sendResponse(res,{message: "Gear Created Successfully", data:{gear}})
+    return
 })

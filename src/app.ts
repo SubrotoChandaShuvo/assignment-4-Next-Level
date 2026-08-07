@@ -23,6 +23,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/admin/users", userRouter);
 
 app.use("/api/gear", gearRouter);
+app.use("/api/provider/gear",gearRouter);
+
 
 
 app.use(notFoundHandler);
