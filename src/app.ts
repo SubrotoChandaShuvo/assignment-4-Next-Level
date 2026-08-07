@@ -20,6 +20,7 @@ app.get("/", async (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
+
 // // app.use("/car", ca)
 
 

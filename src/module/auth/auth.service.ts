@@ -44,8 +44,9 @@ export async function registerUser(input: RegisterInput) {
 }
 
 export async function loginUser(input: LoginInput) {
+  // console.log("Line 47:",input);
   const user = await prisma.user.findUnique({ where: { email: input.email } });
-
+  // console.log("Line 50---------",user);
   if (!user) {
     throw new AppError(401, "Invalid email or password");
   }
@@ -55,7 +56,7 @@ export async function loginUser(input: LoginInput) {
   if (!passwordMatches) {
     throw new AppError(401, "Invalid email or password");
   }
-
+// console.log("Line 59:",passwordMatches);
   const safeUser = {
     id: user.id,
     name: user.name,
@@ -69,4 +70,13 @@ export async function loginUser(input: LoginInput) {
     user: safeUser,
     ...createTokenPair({ email: user.email, id: user.id, role: user.role }),
   };
+}
+
+export async function getCurrentUser(userId: string) {
+  return prisma.user.findUnique({
+    where: { id: userId },
+    omit: {
+      password: true,
+    },
+  });
 }

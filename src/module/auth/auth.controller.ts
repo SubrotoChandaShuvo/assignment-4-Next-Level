@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { loginSchema, registerSchema } from "./auth.validation";
-import { loginUser, registerUser } from "./auth.service";
+import { getCurrentUser, loginUser, registerUser } from "./auth.service";
 import { sendResponse } from "../../utils/send-response";
 import { catchAsync } from "../../utils/catch-async";
 
@@ -18,7 +18,7 @@ export const register = catchAsync(async (req: Request, res: Response) => {
 
 export const login = catchAsync(async (req: Request, res: Response) => {
   const input = loginSchema.parse(req.body);
-  console.log("Line 21:",input);
+  // console.log("Line 21:",input);
   const result = await loginUser(input);
 
   sendResponse(res, {
@@ -28,5 +28,22 @@ export const login = catchAsync(async (req: Request, res: Response) => {
       accessToken: result.accessToken,
       refreshToken: result.refreshToken,
     },
+  });
+});
+
+export const getMe = catchAsync(async (req: Request, res: Response) => {
+  if (!req.user) {
+    return sendResponse(res, { message: "User not authenticated" }, 401);
+  }
+
+  const user = await getCurrentUser(req.user.id);
+
+  if (!user) {
+    return sendResponse(res, { message: "User not found" }, 404);
+  }
+
+  return sendResponse(res, {
+    data: { user },
+    message: "User retrieved successfully",
   });
 });
