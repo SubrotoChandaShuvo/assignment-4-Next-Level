@@ -4,7 +4,7 @@ import { AppError } from "../../utils/app-error";
 import { stripe } from "../../lib/stripe";
 import { checkout } from "./payment.controller";
 
-const createCheckoutSession = async (providerId: string, orderId: string)=>{
+export const createCheckoutSession = async (providerId: string, orderId: string)=>{
     const order = await prisma.rentalOrder.findUnique({
         where:{
             id:orderId
@@ -31,8 +31,8 @@ const createCheckoutSession = async (providerId: string, orderId: string)=>{
     const session = await stripe.checkout.sessions.create({
         mode:"payment",
         metadata:{orderId:order.id},
-        success_url:"localhost:3000/payment/success",
-        cancel_url:"localhost:3000/payment/cancel",
+        success_url:"http://localhost:3000/payment/success",
+        cancel_url:"http://localhost:3000/payment/cancel",
         line_items:[{
             quantity:1,
             price_data:{
@@ -62,3 +62,31 @@ const createCheckoutSession = async (providerId: string, orderId: string)=>{
 
     return {checkoutUrl: session.url}
 };
+
+export const completePayment = async (orderId : string, transactionId:string)=>{
+    const payment = await prisma.payment.findUnique({
+        where:{rentalOrderId: orderId}
+    })
+
+    if(!payment || payment.status === "COMPLETED")
+        return
+
+    await prisma.$transaction([
+        prisma.payment.update({
+            where:{
+                rentalOrderId: orderId
+            },
+            data:{
+                status: "COMPLETED", transactionId
+            }
+        }),
+        prisma.rentalOrder.update({
+            where:{
+                id: orderId
+            },
+            data:{
+                status:"CONFIRMED"
+            }
+        })
+    ])
+}

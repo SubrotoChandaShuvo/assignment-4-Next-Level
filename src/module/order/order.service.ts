@@ -28,7 +28,7 @@ export const createOrder = async (customerId: string, input: createOrderInput) =
     },
   });
 
-  if (overlapping) {
+  if(overlapping) {
     throw new AppError(400, "Gear is already booked");
   }
 
