@@ -7,6 +7,7 @@ import { globalErrorHandler } from "./middleware/global-error";
 import gearRouter from "./module/gear/gear.routes";
 import orderRouter from "./module/order/order.routes";
 import paymentRouter from "./module/payment/payment.routes";
+import { webhook } from "./module/payment/payment.controller";
 
 const app: Application = express();
 
@@ -26,7 +27,7 @@ app.use("/api/provider/gear", gearRouter);
 app.use("/api/rentals", orderRouter);
 app.use("/api/payments", paymentRouter);
 
-app.post("/payments/webhook", express.raw({ type: "application/json" }));
+app.post("/payments/webhook", express.raw({ type: "application/json" }), webhook);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
