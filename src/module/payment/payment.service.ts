@@ -21,7 +21,7 @@ export const createCheckoutSession = async (providerId: string, orderId: string)
     if(order.customerId !== providerId){
         throw new AppError(404,"This is not your order")
     }
-    if(order.status !== "CONFIRMED"){
+    if(order.status !== "PLACED"){
         throw new AppError(404,`Can't pay for ${order.status} order`)
     }
     if(order.payment?.status === "COMPLETED"){
