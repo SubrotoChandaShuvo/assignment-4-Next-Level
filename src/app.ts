@@ -5,11 +5,10 @@ import userRouter from "./module/user/user.routes";
 import authRouter from "./module/auth/auth.routes";
 import { globalErrorHandler } from "./middleware/global-error";
 import gearRouter from "./module/gear/gear.routes";
-
-
+import orderRouter from "./module/order/order.routes";
+import paymentRouter from "./module/payment/payment.routes";
 
 const app: Application = express();
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -23,12 +22,13 @@ app.use("/api/auth", authRouter);
 app.use("/api/admin/users", userRouter);
 
 app.use("/api/gear", gearRouter);
-app.use("/api/provider/gear",gearRouter);
+app.use("/api/provider/gear", gearRouter);
+app.use("/api/rentals", orderRouter);
+app.use("/api/payments", paymentRouter);
 
-
+app.post("/payments/webhook", express.raw({ type: "application/json" }));
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
 export default app;
-

@@ -8,7 +8,7 @@ enum RentalStatus {
 }
 
 model RentalOrder {
-  id            String          @id @default(cuid())
+  id            String          @id @default(uuid())
 
   customerId    String
   gearId        String
