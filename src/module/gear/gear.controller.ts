@@ -4,22 +4,69 @@ import prisma from "../../lib/prisma";
 import { sendResponse } from "../../utils/send-response";
 import z from "zod";
 import { getGearById } from "./gear.service";
-import { createGearSchema } from "./gear.validation";
+import { createGearSchema, getGearsQuerySchema } from "./gear.validation";
 
 // export const getGears = catchAsync(async(req: Request, res: Response)=>{})
-export const getGears = catchAsync(async(req: Request, res: Response)=>{
+// export const getGears = catchAsync(async(req: Request, res: Response)=>{
+//     const gears = await prisma.gearItem.findMany({
+//         where:{
+//             availability : true
+//         },
+//         orderBy:{
+//             createdAt: "desc"
+//         }
+//     })
+
+
+//     sendResponse(res,{message: "GearItems retrieved successfully", data:{gears}})
+// })
+
+export const getGears = catchAsync(
+  async (req: Request, res: Response) => {
+    const { categoryId, brand, minPrice, maxPrice } =
+      getGearsQuerySchema.parse(req.query);
+
     const gears = await prisma.gearItem.findMany({
-        where:{
-            availability : true
-        },
-        orderBy:{
-            createdAt: "desc"
-        }
-    })
+      where: {
+        availability: true,
 
+        ...(categoryId && {
+          categoryId,
+        }),
 
-    sendResponse(res,{message: "GearItems retrieved successfully", data:{gears}})
-})
+        ...(brand && {
+          brand: {
+            contains: brand,
+            mode: "insensitive",
+          },
+        }),
+
+        ...(minPrice !== undefined || maxPrice !== undefined
+          ? {
+              pricePerDay: {
+                ...(minPrice !== undefined && {
+                  gte: minPrice,
+                }),
+
+                ...(maxPrice !== undefined && {
+                  lte: maxPrice,
+                }),
+              },
+            }
+          : {}),
+      },
+
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    sendResponse(res, {
+      message: "GearItems retrieved successfully",
+      data: { gears },
+    });
+  }
+);
 
 
 const gearIdParamsSchema = z.object({

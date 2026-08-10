@@ -2,8 +2,9 @@ import type { Request, Response } from "express";
 import { catchAsync } from "../../utils/catch-async";
 import prisma from "../../lib/prisma";
 import { sendResponse } from "../../utils/send-response";
-import { createOrderSchema } from "./order.validation";
+import { createOrderSchema, orderIdParamsSchema } from "./order.validation";
 import { createOrder } from "./order.service";
+import { AppError } from "../../utils/app-error";
 
 
 // export const getGears = catchAsync(async(req: Request, res: Response)=>{})
@@ -16,3 +17,53 @@ export const addOrder = catchAsync(async (req:Request, res:Response)=>{
     sendResponse(res,{message: "Order Successful", data:{order}},201)
     // return
 })
+
+
+export const getOrders = catchAsync(
+  async (req: Request, res: Response) => {
+    const orders = await prisma.rentalOrder.findMany({
+      where: {
+        customerId: req.user!.id,
+      },
+      include: {
+        gear: true,
+        payment: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    sendResponse(res, {
+      message: "Rental orders retrieved successfully",
+      data: { orders },
+    });
+  },
+);
+
+
+export const getOrder = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = orderIdParamsSchema.parse(req.params);
+
+    const order = await prisma.rentalOrder.findFirst({
+      where: {
+        id,
+        customerId: req.user!.id,
+      },
+      include: {
+        gear: true,
+        payment: true,
+      },
+    });
+
+    if (!order) {
+      throw new AppError(404, "Rental order not found");
+    }
+
+    sendResponse(res, {
+      message: "Rental order retrieved successfully",
+      data: { order },
+    });
+  },
+);

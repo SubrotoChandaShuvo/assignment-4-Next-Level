@@ -8,3 +8,14 @@ export const createGearSchema = z.object({
     stock: z.number("stock is required"),
     categoryId: z.uuid("invalid categoryId")
 })
+
+
+export const getGearsQuerySchema = z.object({
+  categoryId: z.uuid("invalid categoryId").optional(),
+
+  brand: z.string().optional(),
+
+  minPrice: z.coerce.number().min(0).optional(),
+
+  maxPrice: z.coerce.number().min(0).optional(),
+});

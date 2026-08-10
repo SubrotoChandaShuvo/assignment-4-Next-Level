@@ -60,3 +60,5 @@ export const checkout = catchAsync(async (req: Request, res: Response) => {
 
   sendResponse(res, { message: "Checkout session created", data: result });
 });
+
+

@@ -12,4 +12,11 @@ export const createOrderSchema = z.object({
   endDate: z.coerce.date(),
 }).refine((input)=> input.endDate>input.startDate, "End date must be after start date")
 
+
+export const orderIdParamsSchema = z.object({
+  id: z.uuid("Invalid order id"),
+});
+
 export type createOrderInput = z.infer<typeof createOrderSchema>
+
+

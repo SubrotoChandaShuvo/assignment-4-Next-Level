@@ -6,4 +6,10 @@ const paymentRouter = Router();
 
 paymentRouter.post("/create/:orderId", auth("CUSTOMER"), checkout);
 
+paymentRouter.post("/confirm", auth("CUSTOMER"), confirmPayment);
+
+paymentRouter.get("/", auth("CUSTOMER"), getPayments);
+
+paymentRouter.get("/:id", auth("CUSTOMER"), getPayment);
+
 export default paymentRouter;
