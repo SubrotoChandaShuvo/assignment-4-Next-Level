@@ -74,7 +74,8 @@ export const completePayment = async (orderId : string, transactionId:string)=>{
     await prisma.$transaction([
         prisma.payment.update({
             where:{
-                rentalOrderId: orderId
+                rentalOrderId: orderId,
+                status: "PENDING"
             },
             data:{
                 status: "COMPLETED", transactionId
@@ -90,3 +91,25 @@ export const completePayment = async (orderId : string, transactionId:string)=>{
         })
     ])
 }
+
+export const getPaymentHistory = async (customerId: string) => {
+  const payments = await prisma.payment.findMany({
+    where: {
+      rentalOrder: {
+        customerId,
+      },
+    },
+    include: {
+      rentalOrder: {
+        include: {
+          gear: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return payments;
+};

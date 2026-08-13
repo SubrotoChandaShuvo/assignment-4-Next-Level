@@ -5,7 +5,7 @@ import type { Request, Response } from "express";
 import { stripe } from "../../lib/stripe";
 import config from "../../config";
 import z from "zod";
-import { completePayment, createCheckoutSession } from "./payment.service";
+import { completePayment, createCheckoutSession, getPaymentHistory } from "./payment.service";
 import { sendResponse } from "../../utils/send-response";
 import prisma from "../../lib/prisma";
 
@@ -61,4 +61,13 @@ export const checkout = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, { message: "Checkout session created", data: result });
 });
 
+export const getPayments = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await getPaymentHistory(req.user!.id);
 
+    sendResponse(res, {
+      message: "Payment history retrieved successfully",
+      data: result,
+    });
+  }
+);
