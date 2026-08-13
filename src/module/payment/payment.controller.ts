@@ -5,9 +5,10 @@ import type { Request, Response } from "express";
 import { stripe } from "../../lib/stripe";
 import config from "../../config";
 import z from "zod";
-import { completePayment, createCheckoutSession, getPaymentById, getPaymentHistory } from "./payment.service";
+import { completePayment, confirmStripePayment, createCheckoutSession, getPaymentById, getPaymentHistory } from "./payment.service";
 import { sendResponse } from "../../utils/send-response";
 import prisma from "../../lib/prisma";
+import { confirmPaymentSchema } from "./payment.validation";
 
 export const webhook = catchAsync(async (req: Request, res: Response) => {
   const signature = req.headers["stripe-signature"];
@@ -86,6 +87,24 @@ export const getPayment = catchAsync(
 
     sendResponse(res, {
       message: "Payment details retrieved successfully",
+      data: result,
+    });
+  }
+);
+
+
+
+export const confirmPayment = catchAsync(
+  async (req: Request, res: Response) => {
+    const { sessionId } = confirmPaymentSchema.parse(req.body);
+
+    const result = await confirmStripePayment(
+      req.user!.id,
+      sessionId
+    );
+
+    sendResponse(res, {
+      message: "Payment confirmed successfully",
       data: result,
     });
   }

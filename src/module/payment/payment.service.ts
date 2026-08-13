@@ -156,3 +156,48 @@ export const getPaymentById = async (
 
   return payment;
 };
+
+
+
+export const confirmStripePayment = async (
+  customerId: string,
+  sessionId: string
+) => {
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+  if (!session) {
+    throw new AppError(404, "Payment session not found");
+  }
+
+  const orderId = session.metadata?.orderId;
+
+  if (!orderId) {
+    throw new AppError(400, "Order ID not found in payment session");
+  }
+
+  const order = await prisma.rentalOrder.findUnique({
+    where: {
+      id: orderId,
+    },
+  });
+
+  if (!order) {
+    throw new AppError(404, "Rental order not found");
+  }
+
+  if (order.customerId !== customerId) {
+    throw new AppError(403, "You are not allowed to confirm this payment");
+  }
+
+  if (session.payment_status !== "paid") {
+    throw new AppError(400, "Payment has not been completed");
+  }
+
+  await completePayment(orderId, session.id);
+
+  return {
+    sessionId: session.id,
+    orderId,
+    paymentStatus: "COMPLETED",
+  };
+};
