@@ -93,11 +93,49 @@ export const completePayment = async (orderId : string, transactionId:string)=>{
 }
 
 export const getPaymentHistory = async (customerId: string) => {
-  const payments = await prisma.payment.findMany({
-    where: {
+//   const payments = await prisma.payment.findMany({
+//     where: {
+//       rentalOrder: {
+//         customerId,
+//       },
+//     },
+//     include: {
+//       rentalOrder: {
+//         include: {
+//           gear: true,
+//         },
+//       },
+//     },
+//     orderBy: {
+//       createdAt: "desc",
+//     },
+//   });
+
+//   return payments;
+
+
+  return prisma.payment.findMany({
+    include: {
       rentalOrder: {
-        customerId,
+        include: {
+          gear: true,
+          customer: true,
+        },
       },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+};
+
+export const getPaymentById = async (
+  customerId: string,
+  paymentId: string
+) => {
+  const payment = await prisma.payment.findUnique({
+    where: {
+      id: paymentId,
     },
     include: {
       rentalOrder: {
@@ -106,10 +144,15 @@ export const getPaymentHistory = async (customerId: string) => {
         },
       },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
   });
 
-  return payments;
+  if (!payment) {
+    throw new AppError(404, "Payment not found");
+  }
+
+  if (payment.rentalOrder.customerId !== customerId) {
+    throw new AppError(403, "You are not allowed to view this payment");
+  }
+
+  return payment;
 };
