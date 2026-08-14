@@ -2,9 +2,10 @@ import type { Request, Response } from "express";
 import { catchAsync } from "../../utils/catch-async";
 import prisma from "../../lib/prisma";
 import { sendResponse } from "../../utils/send-response";
-import { createOrderSchema, orderIdParamsSchema } from "./order.validation";
+import { createOrderSchema, orderIdParamsSchema, updateOrderStatusSchema } from "./order.validation";
 import { createOrder } from "./order.service";
 import { AppError } from "../../utils/app-error";
+import z from "zod";
 
 
 // export const getGears = catchAsync(async(req: Request, res: Response)=>{})
@@ -93,6 +94,56 @@ export const getProviderOrders = catchAsync(
       message: "Provider orders retrieved successfully",
       data: {
         orders,
+      },
+    });
+  }
+);
+
+
+
+// patch orders
+export const updateOrderStatus = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = orderIdParamsSchema.parse(req.params);
+
+    const { status } = updateOrderStatusSchema.parse(req.body);
+
+    // Find order
+    const order = await prisma.rentalOrder.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        gear: true,
+      },
+    });
+
+    if (!order) {
+      throw new AppError(404, "Order not found");
+    }
+
+    // Check provider ownership
+    if (order.gear.providerId !== req.user!.id) {
+      throw new AppError(
+        403,
+        "You are not allowed to update this order"
+      );
+    }
+
+    // Update status
+    const updatedOrder = await prisma.rentalOrder.update({
+      where: {
+        id,
+      },
+      data: {
+        status,
+      },
+    });
+
+    sendResponse(res, {
+      message: "Order status updated successfully",
+      data: {
+        order: updatedOrder,
       },
     });
   }
