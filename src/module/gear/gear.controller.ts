@@ -97,6 +97,8 @@ export const addGear = catchAsync(async (req: Request, res: Response) => {
   return;
 });
 
+
+//update Gear
 export const updateGear = catchAsync(async (req: Request, res: Response) => {
   const { id } = gearIdParamsSchema.parse(req.params);
 
@@ -118,7 +120,7 @@ export const updateGear = catchAsync(async (req: Request, res: Response) => {
   }
 
   const { categoryId, ...otherData } = req.body;
-  
+
   const updatedGear = await prisma.gearItem.update({
     where: {
       id,
@@ -144,3 +146,45 @@ export const updateGear = catchAsync(async (req: Request, res: Response) => {
     },
   });
 });
+
+
+// Delete Gear
+export const deleteGear = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = gearIdParamsSchema.parse(req.params);
+
+    const gear = await prisma.gearItem.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!gear) {
+      throw new AppError(404, "Gear not found");
+    }
+
+    // Check ownership
+    if (gear.providerId !== req.user!.id) {
+      throw new AppError(
+        403,
+        "You are not allowed to delete this gear"
+      );
+    }
+
+    const deletedGear = await prisma.gearItem.update({
+      where: {
+        id,
+      },
+      data: {
+        availability: false,
+      },
+    });
+
+    sendResponse(res, {
+      message: "Gear removed from inventory successfully",
+      data: {
+        gear: deletedGear,
+      },
+    });
+  }
+);

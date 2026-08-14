@@ -5,23 +5,30 @@ import { verifyAccessToken } from "../utils/jwt";
 import { AppError } from "../utils/app-error";
 
 const auth = (...roles: Role[]) =>
-    // console.log("Auth is running");
+  // console.log("Auth is running");
   catchAsync(async (req, _res, next) => {
     const authHeader = req.headers.authorization;
 
     // console.log("line 12 at auth.ts", authHeader)
-    
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        throw new AppError(401, "Unauthorized - No token provided");
+      throw new AppError(401, "Unauthorized - No token provided");
     }
-    
+
     // console.log("line 18 at auth.ts", authHeader);
 
     const token = authHeader.slice(7);
 
     try {
       const decoded = verifyAccessToken(token);
-        // console.log(decoded);
+
+      console.log("========== AUTH DEBUG ==========");
+      console.log("Decoded:", decoded);
+      console.log("Decoded role:", decoded.role);
+      console.log("Required roles:", roles);
+      console.log("Role match:", roles.includes(decoded.role));
+      console.log("================================");
+      // console.log(decoded);
       if (roles.length && !roles.includes(decoded.role)) {
         throw new AppError(403, "Forbidden - Unauthorized access");
       }

@@ -25,6 +25,7 @@ app.use("/api/admin/users", userRouter);
 app.use("/api/gear", gearRouter);
 app.use("/api/provider/gear", gearRouter);
 app.use("/api/rentalOrders", orderRouter);
+app.use("/api/provider", orderRouter);
 app.use("/api/payments", paymentRouter);
 
 app.post("/payments/webhook", express.raw({ type: "application/json" }), webhook);

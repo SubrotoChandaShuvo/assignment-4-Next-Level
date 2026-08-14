@@ -17,6 +17,17 @@ export const orderIdParamsSchema = z.object({
   id: z.uuid("Invalid order id"),
 });
 
+export const updateOrderStatusSchema = z.object({
+  status: z.enum([
+    "PLACED",
+    "CONFIRMED",
+    "PAID",
+    "PICKED_UP",
+    "RETURNED",
+    "CANCELLED",
+  ]),
+});
+
 export type createOrderInput = z.infer<typeof createOrderSchema>
 
 

@@ -1,13 +1,17 @@
 import { Router } from "express";
 import auth from "../../middleware/auth";
-import { addOrder, getOrder, getOrders } from "./order.controller";
+import {
+  addOrder,
+  getOrder,
+  getOrders,
+  getProviderOrders,
+} from "./order.controller";
 
+const orderRouter = Router();
 
-const orderRouter = Router()
-
-
-orderRouter.post("/",auth("CUSTOMER"),addOrder)
+orderRouter.post("/", auth("CUSTOMER"), addOrder);
 orderRouter.get("/", auth("CUSTOMER"), getOrders);
+orderRouter.get("/orders", auth("PROVIDER"), getProviderOrders);
 orderRouter.get("/:id", auth("CUSTOMER"), getOrder);
 // order
 //Router.patch("/:id",auth("ranter"),editGear)

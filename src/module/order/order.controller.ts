@@ -67,3 +67,33 @@ export const getOrder = catchAsync(
     });
   },
 );
+
+
+export const getProviderOrders = catchAsync(
+  async (req: Request, res: Response) => {
+    const orders = await prisma.rentalOrder.findMany({
+      where: {
+        gear: {
+          providerId: req.user!.id,
+        },
+      },
+
+      include: {
+        customer: true,
+        gear: true,
+        payment: true,
+      },
+
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    sendResponse(res, {
+      message: "Provider orders retrieved successfully",
+      data: {
+        orders,
+      },
+    });
+  }
+);
