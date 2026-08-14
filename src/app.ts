@@ -8,6 +8,7 @@ import gearRouter from "./module/gear/gear.routes";
 import orderRouter from "./module/order/order.routes";
 import paymentRouter from "./module/payment/payment.routes";
 import { webhook } from "./module/payment/payment.controller";
+import reviewRouter from "./review/review.routes";
 
 const app: Application = express();
 
@@ -27,6 +28,7 @@ app.use("/api/provider/gear", gearRouter);
 app.use("/api/rentalOrders", orderRouter);
 app.use("/api/provider", orderRouter);
 app.use("/api/payments", paymentRouter);
+app.use("/api/reviews", reviewRouter);
 
 app.post("/payments/webhook", express.raw({ type: "application/json" }), webhook);
 
