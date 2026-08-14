@@ -37,7 +37,7 @@ export const webhook = catchAsync(async (req: Request, res: Response) => {
     }else if(event.type ==="checkout.session.expired" || event.type === "checkout.session.async_payment_failed"){
         await prisma.payment.updateMany({
             where:{
-                orderId,
+                rentalOrderId: orderId,
                 status:"PENDING"
             },
             data:{

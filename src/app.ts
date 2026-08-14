@@ -11,6 +11,7 @@ import { webhook } from "./module/payment/payment.controller";
 import reviewRouter from "./review/review.routes";
 
 const app: Application = express();
+app.post("/payments/webhook", express.raw({ type: "application/json" }), webhook);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,7 +31,6 @@ app.use("/api/provider", orderRouter);
 app.use("/api/payments", paymentRouter);
 app.use("/api/reviews", reviewRouter);
 
-app.post("/payments/webhook", express.raw({ type: "application/json" }), webhook);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);

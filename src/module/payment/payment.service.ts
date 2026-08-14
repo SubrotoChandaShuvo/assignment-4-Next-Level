@@ -86,7 +86,7 @@ export const completePayment = async (orderId : string, transactionId:string)=>{
                 id: orderId
             },
             data:{
-                status:"CONFIRMED"
+                status:"PAID"
             }
         })
     ])
