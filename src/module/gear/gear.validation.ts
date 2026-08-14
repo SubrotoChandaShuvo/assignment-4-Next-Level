@@ -19,3 +19,13 @@ export const getGearsQuerySchema = z.object({
 
   maxPrice: z.coerce.number().min(0).optional(),
 });
+
+export const updateGearSchema = z.object({
+  title: z.string().min(1).optional(),
+  description: z.string().min(1).optional(),
+  brand: z.string().min(1).optional(),
+  pricePerDay: z.number().min(0).optional(),
+  stock: z.number().int().min(0).optional(),
+  categoryId: z.uuid("invalid categoryId").optional(),
+  availability: z.boolean().optional(),
+});
